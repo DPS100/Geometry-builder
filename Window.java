@@ -17,40 +17,22 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
     private int width = 500;
     private int height = 500;
     private Dimension size;
-    private int mouseDraggedX;
-    private int mouseDraggedY;
-    private boolean mouseIsDragged = false;
-    public Line testLine; //TODO these are tests ->
-    public int aX;
-    public int aY;
-    public int bX;
-    public int bY;
-    public Point pointA;
-    public Point pointB; 
-    public Container container;//<-
+    public Container container;
 
     public static void main(String[] args){
         new Window();
     }
 
-    public Window() { //TODO add side menu
+    public Window() {
         frame = new JFrame("Geometry Builder");
         size = new Dimension(width, height);
-        aX = 10;
-        aY = 10;
-        bX = 100;
-        bY = 100;
-        pointA = new Point(aX, aY);
-        pointB = new Point(bX, bY);
-        testLine = new Line(pointA, pointB);
         container = new Container();
-        container.addLine(testLine);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
         frame.setVisible(true);
         frame.setContentPane(this);
-        frame.setPreferredSize(size);
+        frame.setPreferredSize(size); 
         frame.setSize(size);
         frame.pack();
         frame.setFocusTraversalKeysEnabled(false);
@@ -58,8 +40,7 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
 
         addMouseListener(this);
         addMouseMotionListener(this);
-
-        System.out.println(container.getLine(0).toString());
+        frame.addKeyListener(this);
     }
 
     public void paintComponent(Graphics g) {
@@ -68,14 +49,10 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
     }
 
     private void runWindow(Graphics2D g2d) {
-        doLogic();
+        container.logic();
         clearPast(g2d);
         drawContainer(g2d);
         repaint();
-    }
-
-    private void doLogic() {
-        //TODO add, remove, edit lines
     }
 
     private void clearPast(Graphics2D g2d) {
@@ -93,20 +70,45 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
         );
     }
 
+    private void drawPoint(Graphics2D g2d, Point point) {
+        g2d.setColor(Color.RED);
+        g2d.fillOval(point.getXCoord() - 10, point.getYCoord() - 10, 20, 20);
+    }
+
     private void drawContainer(Graphics2D g2d) {
         for(int x = 0; x < container.getLinesLength(); x++) {
-            if(container.getLine(x).getComplete()) {drawLine(g2d, container.getLine(x));}
+            if(container.getLinesLength() > 0){
+                if(container.getLine(x) != null){
+                    if(container.getLine(x).isComplete()) {drawLine(g2d, container.getLine(x));}
+                }
+            }
+        } for(int x = 0; x < container.getPointsLength(); x++) {
+            if(container.getPointsLength() > 0){
+                if(container.getPoint(x) != null){
+                    if(container.getPoint(x).getOnScreen()) {drawPoint(g2d, container.getPoint(x));}
+                }
+            }
+        }
+        for(int x = 0; x < container.getTempPointsLength(); x++) {
+            if(container.getTempPointsLength() > 0){
+                if(container.getTempPoint(x) != null){
+                    if(container.getTempPoint(x).getOnScreen()) {drawPoint(g2d, container.getTempPoint(x));}
+                }
+            }
         }
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {
+        container.setMouseClick(true);
+        container.setMouseCoords(e.getX(), e.getY());
+    }
 
     @Override
-    public void mousePressed(MouseEvent e) {mouseIsDragged = true;}
+    public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {mouseIsDragged = false;}
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
     public void mouseEntered(MouseEvent e) {}
@@ -115,18 +117,13 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
     public void mouseExited(MouseEvent e) {}
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-        mouseDraggedX = e.getX();
-        mouseDraggedY = e.getY();
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     @Override
     public void mouseMoved(MouseEvent e) {}
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        System.out.println(e.getKeyCode());
-    }
+    public void keyTyped(KeyEvent e) {container.checkInput(e.getKeyChar());}
 
     @Override
     public void keyPressed(KeyEvent e) {}

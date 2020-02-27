@@ -1,20 +1,29 @@
 public class Point {
 
     private int[] coords;
+    private static int xCoord = 0;
+    private static int yCoord = 1;
+    private static int length = 2;
+    private static int minumum = 0;
     private boolean onScreen;
 
+    public Point(Point point) {
+        coords = new int[length];
+        setPoint(point.getXCoord(), point.getYCoord());
+    }
+
     public Point(int x, int y) {
-        coords = new int[2];
+        coords = new int[length];
         setPoint(x,y);
     }
 
     public Point() {
-        coords = new int[2];
-        setPoint(-1,-1);
+        coords = new int[length];
+        setPoint(minumum - 1, minumum - 1);
     }
 
     public void setOnScreen() {
-        if(getXCoord() <= -1 || getYCoord() <= -1) {onScreen = false;}
+        if(getXCoord() < minumum || getYCoord() < minumum) {onScreen = false;}
         else{onScreen = true;}
     }
     
@@ -24,12 +33,12 @@ public class Point {
     }
 
     public void setXCoord(int x) {
-        coords[0] = x;
+        coords[xCoord] = x;
         setOnScreen();
     }
 
     public void setYCoord(int y) {
-        coords[1] = y;
+        coords[yCoord] = y;
         setOnScreen();
     }
 
@@ -42,14 +51,15 @@ public class Point {
     }
 
     public int getXCoord() {
-        return coords[0];
+        return coords[xCoord];
     }
 
     public int getYCoord() {
-        return coords[1];
+        return coords[yCoord];
     }
 
     public String toString(){
-        return ("Point (" + getXCoord() + ", " + getYCoord() + ") exists = " + getOnScreen());
+        if (getOnScreen()){return ("Point (" + getXCoord() + ", " + getYCoord() + ") exists = " + getOnScreen());}
+        else {return "No point";}
     }
 }

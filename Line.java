@@ -1,22 +1,23 @@
 public class Line {
 
     private Point[] points;
-    private Point emptyPoint = new Point();
+    private static int pointA = 0;
+    private static int pointB = 1;
+    private static int length = 2;
     private Boolean complete;
 
     public Line(Point a, Point b) {
-        points = new Point[2];
+        points = new Point[length];
         setPoints(a,b);
+    }
+    
+    public Line(Point a) {
+        points = new Point[length];
+        setPointA(a);
     }
 
     public Line() {
-        points = new Point[2];
-        setPoints(emptyPoint, emptyPoint);
-    }
-
-    public Line(Point a) {
-        points = new Point[2];
-        setPoints(a, emptyPoint);
+        points = new Point[length];
     }
 
     public void setPoints(Point a, Point b) {
@@ -25,16 +26,16 @@ public class Line {
     }
 
     public void setPointA(Point a) {
-        points[0] = a;
+        points[pointA] = a;
         setComplete();
     }
 
     public void setPointB(Point b) {
-        points[1] = b;
+        points[pointB] = b;
         setComplete();
     }
 
-    public Boolean getComplete() {
+    public Boolean isComplete() {
         return complete;
     }
 
@@ -51,14 +52,15 @@ public class Line {
     }
 
     public Point getPointA() {
-        return points[0];
+        return points[pointA];
     }
 
     public Point getPointB() {
-        return points[1];
+        return points[pointB];
     }
 
     public String toString() {
-        return ("Line (" + getPointA().toString() + ") to (" + getPointB().toString() + ") exists = " + getComplete());
+        if(getPointA() == null || getPointB() == null) {return "No line";} 
+        else {return ("Line (" + getPointA().toString() + ") to (" + getPointB().toString() + ")");}
     }
 }
