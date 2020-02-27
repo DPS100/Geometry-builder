@@ -76,32 +76,31 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
     }
 
     private void drawContainer(Graphics2D g2d) {
+        
+        //Draw points
         for(int x = 0; x < container.getLinesLength(); x++) {
             if(container.getLinesLength() > 0){
                 if(container.getLine(x) != null){
                     if(container.getLine(x).isComplete()) {drawLine(g2d, container.getLine(x));}
                 }
             }
-        } for(int x = 0; x < container.getPointsLength(); x++) {
+        }
+        
+        //Draw Lines
+        for(int x = 0; x < container.getPointsLength(); x++) {
             if(container.getPointsLength() > 0){
                 if(container.getPoint(x) != null){
                     if(container.getPoint(x).getOnScreen()) {drawPoint(g2d, container.getPoint(x));}
                 }
             }
         }
-        for(int x = 0; x < container.getTempPointsLength(); x++) {
-            if(container.getTempPointsLength() > 0){
-                if(container.getTempPoint(x) != null){
-                    if(container.getTempPoint(x).getOnScreen()) {drawPoint(g2d, container.getTempPoint(x));}
-                }
-            }
-        }
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {/*
         container.setMouseClick(true);
         container.setMouseCoords(e.getX(), e.getY());
+        */
     }
 
     @Override
@@ -123,7 +122,9 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
     public void mouseMoved(MouseEvent e) {}
 
     @Override
-    public void keyTyped(KeyEvent e) {container.checkInput(e.getKeyChar());}
+    public void keyTyped(KeyEvent e) {
+        //container.checkInput(e.getKeyChar());
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {}
