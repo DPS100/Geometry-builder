@@ -35,7 +35,7 @@ public class Line {
         setComplete();
     }
 
-    public Boolean isComplete() {
+    public boolean isComplete() {
         return complete;
     }
 

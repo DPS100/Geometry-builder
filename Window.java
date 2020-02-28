@@ -18,6 +18,8 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
     private int height = 500;
     private Dimension size;
     public Container container;
+    public Point[] trianglePoints;
+    public Shape triangle;
 
     public static void main(String[] args){
         new Window();
@@ -29,7 +31,7 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
         container = new Container();
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setVisible(true);
         frame.setContentPane(this);
         frame.setPreferredSize(size); 
@@ -41,6 +43,13 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
         addMouseListener(this);
         addMouseMotionListener(this);
         frame.addKeyListener(this);
+
+        trianglePoints = new Point[3];
+        trianglePoints[0] = new Point(0, height);
+        trianglePoints[1] = new Point(width / 2, 0);
+        trianglePoints[2] = new Point(width, height);
+
+        triangle = new Shape(trianglePoints);
     }
 
     public void paintComponent(Graphics g) {
@@ -58,6 +67,13 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
     private void clearPast(Graphics2D g2d) {
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, width, height);
+    }
+
+    public void drawShape(Graphics2D g2d, Shape shape) {
+        g2d.setColor(Color.BLACK);
+        for(int x = 0; x < shape.getSides(); x++) {
+            drawLine(g2d, shape.getLine(x));
+        }
     }
 
     private void drawLine(Graphics2D g2d, Line line) {
@@ -94,6 +110,9 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
                 }
             }
         }
+
+        //Draw shape
+        drawShape(g2d, triangle);
     }
 
     @Override

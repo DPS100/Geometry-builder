@@ -42,7 +42,7 @@ public class Point {
         setOnScreen();
     }
 
-    public Boolean getOnScreen() {
+    public boolean getOnScreen() {
         return onScreen;
     }
 

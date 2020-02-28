@@ -6,6 +6,7 @@ public class Container {
     private ArrayList<Point> points;
     private ArrayList<Line> tempLines;
     private ArrayList<Point> tempPoints;
+    private ArrayList<Shape> shapes;
     private char lineKey = 'l';
     private char pointKey = 'p';
     private Point mouseCoords;
@@ -85,6 +86,10 @@ public class Container {
         tempPoints.add(point);
     }
 
+    public void addShape(Shape shape) {
+        shapes.add(shape);
+    }
+
     public void deleteLine(int address) {
         lines.remove(address);
     }
@@ -101,12 +106,20 @@ public class Container {
         tempPoints.remove(address);
     }
 
-    public Line getRecentLine(){
+    public void deleteShape(int address) {
+        shapes.remove(address);
+    }
+
+    public Line getRecentLine() {
         return lines.get(lines.size() - 1);
     }
 
-    public Point getRecentPoint(){
+    public Point getRecentPoint() {
         return points.get(points.size() - 1);
+    }
+
+    public Shape getRecentShape() {
+        return shapes.get(shapes.size() - 1);
     }
 
     public Line getLine(int address) {
@@ -125,6 +138,10 @@ public class Container {
         return tempPoints.get(address);
     }
 
+    public Shape getShape(int address) {
+        return shapes.get(address);
+    }
+
     public int getLinesLength() {
         return lines.size();
     }
@@ -139,6 +156,10 @@ public class Container {
 
     public int getTempPointsLength() {
         return tempPoints.size();
+    }
+
+    public int getShapesLength() {
+        return shapes.size();
     }
 
     public void setTempPointsToLine(int start) {
