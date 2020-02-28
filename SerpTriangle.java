@@ -4,8 +4,7 @@ public class SerpTriangle extends Shape{
     private Point[] midpoints;
 
     public SerpTriangle(Point[] points) {
-
-        super(3);
+        super(points);
     }
 
     public void calculateMidpoints() {
