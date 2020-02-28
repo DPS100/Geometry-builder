@@ -18,8 +18,7 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
     private int height = 500;
     private Dimension size;
     public Container container;
-    public Point[] trianglePoints;
-    public Shape triangle;
+    public SerpTriangle triangle1_2;
 
     public static void main(String[] args){
         new Window();
@@ -43,13 +42,6 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
         addMouseListener(this);
         addMouseMotionListener(this);
         frame.addKeyListener(this);
-
-        trianglePoints = new Point[3];
-        trianglePoints[0] = new Point(0, height);
-        trianglePoints[1] = new Point(width / 2, 0);
-        trianglePoints[2] = new Point(width, height);
-
-        triangle = new Shape(trianglePoints);
     }
 
     public void paintComponent(Graphics g) {
@@ -112,14 +104,15 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
         }
 
         //Draw shape
-        drawShape(g2d, triangle);
+        for(int x = 0; x < container.getShapesLength(); x++) {
+            drawShape(g2d, container.getShape(x));
+        }
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {/*
+    public void mouseClicked(MouseEvent e) {
         container.setMouseClick(true);
         container.setMouseCoords(e.getX(), e.getY());
-        */
     }
 
     @Override
@@ -142,7 +135,7 @@ public class Window extends JPanel implements MouseInputListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        //container.checkInput(e.getKeyChar());
+        container.checkInput(e.getKeyChar());
     }
 
     @Override

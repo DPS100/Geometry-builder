@@ -9,22 +9,37 @@ public class Container {
     private ArrayList<Shape> shapes;
     private char lineKey = 'l';
     private char pointKey = 'p';
+    private char addGenKey = '=';
+    private char subGenKey = '-';
+    private char addSerpKey = 't';
     private Point mouseCoords;
     private boolean mouseOn = false;
     private boolean newPointEnabled = false;
     private boolean newLineEnabled = false;
+    private int serpinskiGenerations = 0;
+    private Point[] trianglePoints;
+    private SerpTriangle triangle;
 
     public Container() {
         lines = new ArrayList<Line>();
         points = new ArrayList<Point>();
         tempLines = new ArrayList<Line>();
         tempPoints = new ArrayList<Point>();
+        shapes = new ArrayList<Shape>();
         mouseCoords = new Point();
+
+        trianglePoints = new Point[3];
+        trianglePoints[0] = new Point(20 * 2, 180 * 2);
+        trianglePoints[1] = new Point(100 * 2, 20 * 2);
+        trianglePoints[2] = new Point(180 * 2, 100 * 2);
+
+        triangle = new SerpTriangle(trianglePoints, 0);
     }
 
     public void logic() {
         createNewPoint();
         createNewLine();
+        serpinskiLoop();
         mouseOn = false;
     }
 
@@ -48,6 +63,26 @@ public class Container {
         }
     }
 
+
+
+    public void serpinskiLoop() {
+        serpinskiMini(serpinskiGenerations, triangle);
+    }
+
+    public void addGeneration() {
+        serpinskiGenerations++;
+    }
+
+    public void serpinskiMini(int gensLeft, SerpTriangle target) {
+        addShape(target);
+        if(gensLeft != 0) {
+            gensLeft--;
+            serpinskiMini(gensLeft, target.newTopTriangle());
+            serpinskiMini(gensLeft, target.newLeftTriangle());
+            serpinskiMini(gensLeft, target.newRightTriangle());
+        }
+    }
+
     public void checkInput(char input) {
         System.out.println("Char " + input + " inputted");
         if(input == lineKey){
@@ -56,6 +91,10 @@ public class Container {
         } else if (input == pointKey) {
             newPointEnabled = true;
             System.out.println("new point enabled");
+        } else if (input == addGenKey) {
+            serpinskiGenerations++;
+        } else if (input == subGenKey) {
+            serpinskiGenerations--;
         }
 
     }
