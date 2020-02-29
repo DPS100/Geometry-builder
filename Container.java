@@ -63,9 +63,14 @@ public class Container {
         }
     }
 
-
+    public void deleteAllShapes() {
+        for(int x = 0; x < getShapesLength(); x++) {
+            deleteShape(x);
+        }
+    }
 
     public void serpinskiLoop() {
+        deleteAllShapes();
         serpinskiMini(serpinskiGenerations, triangle);
     }
 
