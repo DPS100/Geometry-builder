@@ -12,6 +12,7 @@ public class Container {
     private char addGenKey = '=';
     private char subGenKey = '-';
     private char addSerpKey = 't';
+    private char clearWorkspaceKey = 'c';
     private Point mouseCoords;
     private boolean mouseOn = false;
     private boolean newPointEnabled = false;
@@ -63,9 +64,42 @@ public class Container {
         }
     }
 
+    public void deleteAllObjects() {
+        deleteAllShapes();
+        deleteAllPoints();
+        
+        deleteAllLines();
+        deleteAllTempPoints();
+        deleteAllTempLines();
+    }
+
     public void deleteAllShapes() {
         for(int x = 0; x < getShapesLength(); x++) {
             deleteShape(x);
+        }
+    }
+
+    public void deleteAllPoints() {
+        for(int x = 0; x < getPointsLength(); x++) {
+            deletePoint(x);
+        }
+    }
+
+    public void deleteAllTempPoints() {
+        for(int x = 0; x < getTempPointsLength(); x++) {
+            deleteTempPoint(x);
+        }
+    }
+
+    public void deleteAllLines() {
+        for(int x = 0; x < getLinesLength(); x++) {
+            deleteLine(x);
+        }
+    }
+
+    public void deleteAllTempLines() {
+        for(int x = 0; x < getTempLinesLength(); x++) {
+            deleteTempLine(x);
         }
     }
 
@@ -100,8 +134,9 @@ public class Container {
             serpinskiGenerations++;
         } else if (input == subGenKey) {
             serpinskiGenerations--;
+        } else if (input == clearWorkspaceKey) {
+            deleteAllObjects();
         }
-
     }
 
     public void setMouseCoords(int x, int y) {
